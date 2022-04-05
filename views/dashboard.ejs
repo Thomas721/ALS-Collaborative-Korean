@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="/css/dashboard.css" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="jquery-circle-progress/dist/circle-progress.js"></script>
+
+    </head>
+    <body style="background-color: #C6ECF4;">
+        <% 
+            var progress = 5;
+            var exercise = 1;
+            var task = 3;
+        %>
+
+        <div id="circle"></div>
+
+
+
+        <!-- <div style="position: absolute; width: 100vw; height: 40%; top: 60%;">
+            <div class="analyticsPanel">
+                <div class="analyticsLabel">
+                    <b class="title">Task <%= task %> Analytics </b>
+                </div>
+            </div>
+            <div class="analyticsPanel" style="left: 50%;">
+                <div class="analyticsLabel">
+                    <b class="title">Overall Analytics</b>
+                </div>
+            </div>
+        </div> -->
+    </body>
+
+    <script>
+        $('#circle').circleProgress({
+            value: 0.75,
+            size: 80,
+            fill: {
+            gradient: ["red", "orange"]
+            }
+        });
+    </script>
+</html>

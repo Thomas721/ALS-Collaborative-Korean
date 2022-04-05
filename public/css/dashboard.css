@@ -1,0 +1,35 @@
+body{
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .analyticsPanel {
+    background-color: #07597C;
+    position: absolute;
+    left: 0; 
+    width: 50%; 
+    height: 100%; 
+    border-style: solid; 
+    border-color: black;
+    border-width: 3px;
+    border-bottom-width: 0;
+  }
+.analyticsLabel {
+    position: absolute;
+    left: 2%;
+    top: 3%;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 1vw;
+    padding: 0% 4% 0% 4%;
+    background-color: #072148;
+}
+
+.title {
+    color: white;
+    font-size: 2vw;
+    padding: 0%;
+}

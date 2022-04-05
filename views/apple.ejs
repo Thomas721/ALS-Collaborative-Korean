@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>ALS-Collaborative Korean</title>
+        <link rel="stylesheet" href="/css/design.css" type="text/css">
+    </head>
+    <style>
+        .btnanswer {
+            position: absolute;
+            height: 20%; 
+            width: 20%;
+
+        }
+    </style>
+    <body>
+        <% 
+            var introText = "ssss";
+            var title = "Title";
+            var progress = 3;
+            var choices = ["choice1", "choice2", "choice3"]
+            
+             %> 
+        <div class="VCcontainer">
+
+            <!--Create ProgressBar on top-->
+            <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar>   
+            
+            <!--Create infobox with question and possible answers-->
+            <div class="infoBox" style="min-width: 75%; height: 60%; position: relative; overflow: hidden;">
+                <h2 class="infoText" id = "infoText">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis praesentium qui ad dicta ea illo aut eum odio eaque laudantium amet numquam ratione, labore nemo pariatur saepe fuga, beatae itaque.
+                </h2>
+                <button id = "btn1" class="button btnanswer" onclick="choose(1);" style="left: 10%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0; "> <%= choices[0] %> </h2>
+                </button>
+                <button id = "btn2" class="button btnanswer" onclick="choose(2);" style="left: 40%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0;"> <%= choices[1] %> </h2>
+                </button>
+                <button id = "btn3" class="button btnanswer" onclick="choose(3);" style="left: 70%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0;"> <%= choices[2] %> </h2>
+                </button>
+            </div>
+
+        </div>
+    </body>
+    <script>
+        function gotIt(){
+            // if (task == "0"){
+            //     window.location.replace("/intro/task1");
+            // }
+            // else{     
+            // window.location.replace("/");
+            // }
+        }
+        function choose(choice){
+
+        }
+    </script>
+    <script src ="/js/progressBar.js"></script>
+</html>

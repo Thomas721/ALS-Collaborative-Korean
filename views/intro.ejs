@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>ALS-Collaborative Korean</title>
+        <link rel="stylesheet" href="/css/design.css" type="text/css">
+    </head>
+    <body>
+        <% 
+            var introText = "Intro";
+            var title = "Title";
+            var progress = 3;
+            switch (task) {
+                case 0: {
+                    title = "Learning basic Korean words";
+                    introText = "You and your teammate will have to solve in total 5 different tasks together. Each task will have multiple similar exercises. Each time you complete an exercise without any mistake, you will gain an apple.";
+                    break;
+                }
+                case 1: {
+                    title = "Task 1: Vowels and consonants";
+                    introText = "In the first task you will get information about Korean symbols and their pronunciation. Make sure you try to remember them, because you and your teammate will have to put them back together after.";
+                    break;
+                }
+                case 2: {
+                    title = "Task 2: Syllables";
+                    introText = "The second task is very similar to the first one. The main difference here is that you will have to deal with syllables.";
+                    break;
+                }
+                case 3: {
+                    title = "Task 3: Words";
+                    introText = "In the third task you will have to combine the syllables to form a word. ";
+                    break;
+                }
+                case 4: {
+                    title = "Task 4: Writing";
+                    introText = "In this task you will get the pronunciation of the word and you will have to type it using a Korean keyboard.";
+                    break;
+                }
+                case 5: {
+                    title = "Task 5: Listening";
+                    introText = "In the last exercise you will have to listen to the audio file and figure out what word was spoken. ";
+                    break;
+                }                
+                default: {
+                    break;
+                }
+                console.log(title);
+            }
+             %> 
+        <div class="VCcontainer">
+
+            <!--Create ProgressBar on top-->
+            <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar>   
+            
+            <!--Create infobox with information about the task-->
+            <div class="infoBox">
+                <h2 class="infoText" id = "infoText">
+                    <%= introText %> 
+                </h2>
+                <button class="button" onclick="gotIt();">
+                    <h2 class="infoText" style = "margin: 0;"> Got It! </h2>
+                </button>
+            </div>
+        </div>
+    </body>
+    <script>
+        window.history.replaceState({}, "", "/introduction")
+        function gotIt(){
+            var task = "<%= task %>";
+            if (task == "0"){
+                window.location.replace("/intro/task1");
+            }
+            else{     
+            window.location.replace("/tasks/<%= task%>/1");
+            }
+        }
+    </script>
+    <script src ="/js/progressBar.js"></script>
+</html>
