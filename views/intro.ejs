@@ -4,6 +4,8 @@
         <meta charset = "utf-8">
         <title>ALS-Collaborative Korean</title>
         <link rel="stylesheet" href="/css/design.css" type="text/css">
+        <!-- socket connection -->
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
         <% 
@@ -64,7 +66,7 @@
         </div>
     </body>
     <script>
-        window.history.replaceState({}, "", "/introduction")
+        //window.history.replaceState({}, "", "/introduction")
         function gotIt(){
             var task = "<%= task %>";
             if (task == "0"){
@@ -74,6 +76,17 @@
             window.location.replace("/tasks/<%= task%>/1");
             }
         }
+
+
+        
+        var io = io();
+        io.on('details', (details)=>{
+            console.log(`a user connected!: ${details}`);
+            
+
+        });
+
+
     </script>
     <script src ="/js/progressBar.js"></script>
 </html>

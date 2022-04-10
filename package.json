@@ -17,7 +17,16 @@
     "jquery": "^3.6.0",
     "jquery-circle-progress": "^1.2.2",
     "jquery-ui": "^1.13.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "socket.io": "^4.4.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thomas721/App.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Thomas721/App/issues"
+  },
+  "homepage": "https://github.com/Thomas721/App#readme",
   "description": ""
 }

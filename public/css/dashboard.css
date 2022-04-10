@@ -33,3 +33,35 @@ body{
     font-size: 2vw;
     padding: 0%;
 }
+
+.seesawName {
+    color: black;
+    font-size: 4vw;
+    padding: 0%;
+}
+
+.progressCircle{
+    position: absolute;
+    top: 45%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    max-width: 27%;
+    max-height: 50%;
+}
+
+.progressText{
+    position: absolute;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    padding: 0%;
+}
+
+.circleName{
+    position: absolute;
+    top: 80%;
+    transform: translate(-50%, -50%);
+    font-size: 2vw;
+    padding: 0;    
+}

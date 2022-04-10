@@ -5,7 +5,12 @@
         <title>Dashboard</title>
         <link rel="stylesheet" href="/css/dashboard.css" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="jquery-circle-progress/dist/circle-progress.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+        <script src="/node_modules/jquery-circle-progress/dist/circle-progress.js"></script>
+        <script src = "/js/dashboard.js"></script>
+        <!-- socket connection -->
+        <script src="/socket.io/socket.io.js"></script>
+
 
     </head>
     <body style="background-color: #C6ECF4;">
@@ -13,33 +18,48 @@
             var progress = 5;
             var exercise = 1;
             var task = 3;
+            var name1 = "name1";
+            var name2 = "name2";
+            var taskProgress = 0.75;
         %>
+        <script>
+            var io = io();
+        </script>
 
-        <div id="circle"></div>
-
-
-
-        <!-- <div style="position: absolute; width: 100vw; height: 40%; top: 60%;">
+        <div style="position: absolute; left: 0%; top: 0%; height: 70%; width: 100%;">
+            <div style="position: absolute; left: 0%; top: 0%; height: 100%; width: 50%;">
+                <img id = "tree" src="/images/tree.png" style="position: absolute; left: 50%; bottom: 0%; transform: translate(-50%, 0%); height: 100%;">
+            </div>
+            <div style="position: absolute; left: 50%; top: 0%; height: 100%; width: 50%;">
+                <img id="seesawPlank" src="/images/SeesawPlank.png" 
+                    style="position: absolute; left: 50%; bottom: 10%; transform: translate(-50%, 0%); width: 100%; transform-origin: center center;">
+                <img src="/images/SeesawBase.png" style="position: absolute; left: 50%; bottom: 10%; transform: translate(-50%, 0%); width: 100%;">
+                <div class="circleName"  style = "left:  15%; bottom: 10%;"> <b class="seesawName"> <%= name1 %> </b></div>
+                <div class="circleName"  style = "left:  85%; bottom: 10%;"> <b class="seesawName"> <%= name2 %> </b></div>
+            </div>
+        </div>
+        <div style="position: absolute; width: 100vw; height: 30%; top: 70%;">
             <div class="analyticsPanel">
                 <div class="analyticsLabel">
                     <b class="title">Task <%= task %> Analytics </b>
                 </div>
+                
+                <div id="completion1" class = "progressCircle" style="left: 20%;"></div>
+                <div id="time1" class = "progressCircle" style="left: 50%;"></div>
+                <div id="accuracy1" class = "progressCircle" style="left: 80%;"></div>
             </div>
             <div class="analyticsPanel" style="left: 50%;">
                 <div class="analyticsLabel">
                     <b class="title">Overall Analytics</b>
                 </div>
+                
+                <div id="completion2" class = "progressCircle" style="left: 20%;"></div>
+                <div id="time2" class = "progressCircle" style="left: 50%;"></div>
+                <div id="accuracy2" class = "progressCircle" style="left: 80%;"></div>
+                
             </div>
-        </div> -->
+        </div>
     </body>
 
-    <script>
-        $('#circle').circleProgress({
-            value: 0.75,
-            size: 80,
-            fill: {
-            gradient: ["red", "orange"]
-            }
-        });
-    </script>
+
 </html>
