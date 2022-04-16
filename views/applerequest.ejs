@@ -14,13 +14,6 @@
         }
     </style>
     <body>
-        <% 
-            var introText = "ssss";
-            var title = "Title";
-            var progress = 3;
-            var choices = ["choice1", "choice2", "choice3"]
-            
-             %> 
         <div class="VCcontainer">
 
             <!--Create ProgressBar on top-->
@@ -53,10 +46,10 @@
             // }
         }
         function yes(){
-            //goToNextTask
+            window.location.replace("/appleQuestion");
         }
         function no(){
-            //goToAppleQuestion
+            window.location.replace("/exercises");
         }
     </script>
     <script src ="/js/progressBar.js"></script>

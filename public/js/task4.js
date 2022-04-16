@@ -17,13 +17,28 @@ $(function() {
 
 });
 
+var score = 0;
+var possibleScore = 0;
 function check(){
-    var correct = true;
     var input = $("input").val();
-    console.log("input: ", input);
-    correct = (input == solution);
-    if (correct) {
-            console.log("correct");
+    var wrong = [];
+    for (i = 0; i < input.length; i++){
+        if (input.charAt(i) == solution.charAt(i)){
+            score++;
         }
-    // window.location.replace("/apple/1/<%=exercise%>");
+        else {
+            wrong.push(i);
+        };
+        possibleScore++;
+    }
+    console.log(possibleScore, score, solution);
+    if (possibleScore == score) {
+            console.log("correct");
+            window.location.replace(`/completeExercise/`);
+    }
+    
+}
+
+function next(){
+    window.location.replace(`/completeExercise/${score}/${possibleScore}/2`);
 }

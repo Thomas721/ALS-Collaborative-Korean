@@ -39,11 +39,13 @@ $(function() {
                 var occupiedSpot = sequence[spot];
                 reset($("#k"+occupiedSpot));
             }
+            //if label was previously on other spot
+            var previousSpot = kLabel.attr("spot");
+            if (previousSpot != -1){
+                sequence[previousSpot] = -1;
+            }
             sequence[spot] = id.charAt(1);
             kLabel.attr("spot", spot);
-            console.log($(kLabel).attr("spot"));
-            console.log(sequence);
-            console.log(solution);
             var eLabel = ev.target;
             kLabel.css("top", eLabel.style.top);
             kLabel.css("left", eLabel.style.left);
@@ -55,8 +57,6 @@ $(function() {
                 }
             });
             if (filled){
-                console.log("filled in");
-                console.log($("#check"));
                 $("#check").show();
             }
         
@@ -64,33 +64,31 @@ $(function() {
       });
       $(".koreanLabel").on("click", 
         function onClick(event) {
-            console.log("click");
             var label = $(event.target);
             if (label.attr("class") == "labelText"){
                 label = label.parent();
             }
-            console.log(label);
-            console.log(label.attr("spot"));
             var audioname = label.children().text();
             if (label.attr("spot") != -1){
                 reset(label);
             }
-            else{
-                var audio = new Audio("/audio/" + audioname + ".m4a");
-                audio.play();
-            }
+        });
+
+        $(".englishLabel").on("click", (event) =>{
+            var label = $(event.target);
+            var audioname = label.children().text();
+            var audio = new Audio("/audio/" + audioname + ".m4a");
+            audio.play();
         })
           
 
 });
 
 function reset(label){
-    console.log("reset");
     var pos = label.attr("id").charAt(1);
     var spot = label.attr("spot");
     sequence[spot] = -1;
     label.attr("spot", -1);
-    console.log("spot after reset: ", label.attr("spot"));
     var left = leftKor + pos * stepKor;
     label.animate({top: `${korLabelTop}%`, left: `${left}%`});
 
@@ -99,17 +97,13 @@ function reset(label){
 }
 
 function check(){
-    var correct = true;
+    var score = 0;
+    var total = 0;
     for(var i = 0; i < solution.length; i++){
-        if (solution[i] != sequence[i]){
-            correct = false;
-            console.log("false");
-            break;
+        if (solution[i] == sequence[i]){
+            score++;
         }
-
+        total++;
     }
-    if (correct) {
-            console.log("correct");
-        }
-    // window.location.replace("/apple/1/<%=exercise%>");
+    window.location.replace(`/completeExercise/${score}/${total}/1`);
 }

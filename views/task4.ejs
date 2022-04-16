@@ -15,18 +15,11 @@
         <script src="/js/jquery.ui.touch-punch.min.js"></script>
     </head>
     <body>
-        <% 
-            var title = "Task 2: Syllables";
-            var objective = "Dong-moel (Animal)"
-            var exercise = 0;
-            var progress = 40;
-            var solution = "동물";
-        %>
         <!--Create ProgressBar on top-->
         <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar> 
 
         <!-- Create english-korean label on top -->
-        <div class="taskLabel" style = "top: 25%; left: 50%; transform: translate(-50%, 0);"> <p class="taskLabelText"><%= objective %></p> </div>
+        <div class="taskLabel" style = "top: 25%; left: 50%; transform: translate(-50%, 0);"> <p class="taskLabelText"><%= word %></p> </div>
 
         <form style="position: absolute; left: 50%; top: 45%; transform: translate(-50%, 0);">   
             <input id = "input" type="text" name="Name" size="10" > 
@@ -34,7 +27,7 @@
         
 
         
-        <button id = "check" class="button btnNext" onclick="check();" style = "top: 70%; left: 50%; transform: translate(-50%, 0);" >
+        <button id = "check" class="button btnNext" onclick="check();" style = "top: 65%; left: 50%; transform: translate(-50%, 0);" >
             <h1 class="nextText">Check</h1>
         </button>
     </body>

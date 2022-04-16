@@ -84,8 +84,6 @@ class EnglishKoreanLabel extends HTMLElement{
         
         this.shadowRoot.getElementById("label").style= `left: ${left}%; top: ${top}%;`;
         this.shadowRoot.getElementById("textLabel").style= `left: ${left}%; top: ${top}%; background-color: transparent;`;
-        console.log(left, top, `${left}`);
-        console.log(template.innerHTML);
         
         
     }

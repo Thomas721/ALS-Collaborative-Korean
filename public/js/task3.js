@@ -106,17 +106,13 @@ function reset(label){
 }
 
 function check(){
-    var correct = true;
+    var score = 0;
+    var total = 0;
     for(var i = 0; i < solution.length; i++){
-        if (solution[i] != sequence[i]){
-            correct = false;
-            console.log("false");
-            break;
+        if (solution[i] == sequence[i]){
+            score++;
         }
-
+        total++;
     }
-    if (correct) {
-            console.log("correct");
-        }
-    // window.location.replace("/apple/1/<%=exercise%>");
+    window.location.replace(`/completeExercise/${score}/${total}/1`);
 }

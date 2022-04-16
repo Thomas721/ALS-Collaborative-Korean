@@ -14,13 +14,6 @@
         }
     </style>
     <body>
-        <% 
-            var introText = "ssss";
-            var title = "Title";
-            var progress = 3;
-            var choices = ["choice1", "choice2", "choice3"]
-            
-             %> 
         <div class="VCcontainer">
 
             <!--Create ProgressBar on top-->
@@ -29,32 +22,29 @@
             <!--Create infobox with question and possible answers-->
             <div class="infoBox" style="min-width: 75%; height: 60%; position: relative; overflow: hidden;">
                 <h2 class="infoText" id = "infoText">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis praesentium qui ad dicta ea illo aut eum odio eaque laudantium amet numquam ratione, labore nemo pariatur saepe fuga, beatae itaque.
+                    <%=question%>
                 </h2>
-                <button id = "btn1" class="button btnanswer" onclick="choose(1);" style="left: 10%; bottom: 10%;">
-                    <h2 class="infoText" style = "margin: 0; "> <%= choices[0] %> </h2>
+                <button id = "btn1" class="button btnanswer" onclick="choose(0);" style="left: 10%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0; "> <%= answers[0] %> </h2>
                 </button>
-                <button id = "btn2" class="button btnanswer" onclick="choose(2);" style="left: 40%; bottom: 10%;">
-                    <h2 class="infoText" style = "margin: 0;"> <%= choices[1] %> </h2>
+                <button id = "btn2" class="button btnanswer" onclick="choose(1);" style="left: 40%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0;"> <%= answers[1] %> </h2>
                 </button>
-                <button id = "btn3" class="button btnanswer" onclick="choose(3);" style="left: 70%; bottom: 10%;">
-                    <h2 class="infoText" style = "margin: 0;"> <%= choices[2] %> </h2>
+                <button id = "btn3" class="button btnanswer" onclick="choose(2);" style="left: 70%; bottom: 10%;">
+                    <h2 class="infoText" style = "margin: 0;"> <%= answers[2] %> </h2>
                 </button>
             </div>
 
         </div>
     </body>
     <script>
-        function gotIt(){
-            // if (task == "0"){
-            //     window.location.replace("/intro/task1");
-            // }
-            // else{     
-            // window.location.replace("/");
-            // }
-        }
         function choose(choice){
-
+            if (choice == "<%= correctAnswer %>"){
+                window.location.replace(`/appleCorrect`);
+            }
+            else{
+                //TODO Tell Solution
+            }
         }
     </script>
     <script src ="/js/progressBar.js"></script>

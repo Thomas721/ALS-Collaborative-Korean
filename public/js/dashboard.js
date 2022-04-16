@@ -10,15 +10,18 @@ $(function () {
 
     //Resize to relative size
     $('.progressCircle').each(function () {
+
         var max_width = $(this).css("max-width");
         var width = $(this).parent().css("width");
         var max_height = $(this).css("max-height");
         var height = $(this).parent().css("height");
+
         max_width = max_width.substring(0, max_width.length-1);
         width = width.substring(0, width.length-2);
         max_height = max_height.substring(0, max_height.length-1);
         height = height.substring(0, height.length-2);
         var size = Math.min(max_width * width / 100, max_height * height / 100);
+
         $(this).circleProgress({
             size: size,
             thickness: size/8,
@@ -38,13 +41,14 @@ $(function () {
         $(this).parent().append(progressText);
     });
 
-    var start = new Date;
+    //startTime is the start of the whole study
+    //startTimeTask is the start time of the current task
     //start timer
     setInterval(function() {
-        $('#time1Text').text(transformTime(new Date, taskStartTime));
+        $('#time1Text').text(transformTime(new Date, startTimeTask));
     }, 1000);
     setInterval(function() {
-        $('#time2Text').text(transformTime(new Date, start));
+        $('#time2Text').text(transformTime(new Date, startTime));
     }, 1000);
 
 });
@@ -99,12 +103,41 @@ function rotateSeesaw(ratio){
     $("#seesawPlank").css("transform", ` translate(-50%, 0%) rotate(${newAngle}deg)`);
 }
 
-function setProgress(taskCompl, taskAcc, totalCompl, totalAcc){
-    
-    $("#completion1Text").text("" + Math.round(taskCompl*100) + "%");
-    $("#completion2Text").text("" + Math.round(totalCompl*100) + "%");
-    $("#accuracy1Text").text("" + Math.round(taskAcc*100) + "%");
-    $("#accuracy2Text").text("" + Math.round(totalAcc*100) + "%");
+
+var currentTask = 0;
+var currentExercise = 0;
+var taskProgress = 0;
+var totaltasks = 5;
+var totalExercises = [2, 2, 3, 3, 3];
+
+
+function setProgress(taskAcc, totalAcc){
+    updateProgressCircle("accuracy1", taskAcc * 100);
+    updateProgressCircle("accuracy2", totalAcc * 100);
+}
+
+
+var minTreeHeight = 30;
+var maxTreeHeight = 50;
+
+function setTaskProgress(progress){
+    taskProgress = progress;
+    updateProgressCircle("completion1", progress);
+    var newTotalProgress = Math.max(currentTask-1, 0)/totaltasks + 1/totaltasks * progress/100;
+    updateProgressCircle("completion2",newTotalProgress * 100);
+
+    var newTreeHeight = minTreeHeight + (maxTreeHeight-minTreeHeight) * newTotalProgress;
+    $("#tree").css("height", `${newTreeHeight}vh`)
+      
+}
+
+function updateProgressCircle(name, value){
+    $(`#${name}Text`).text("" + Math.round(value) + "%");
+    // var startValue = $(`#${name}`).attr("data-value");       TODO: determine startValue
+    $(`#${name}`).circleProgress({
+        value: value/100
+        // animationStartValue: startValue
+    });
 }
 
 
@@ -132,3 +165,79 @@ document.onkeydown = function(e) {
     rotateSeesaw(person1Weight/person2Weight);
 };
 
+
+//Keeps the information of the score of the previous tasks
+//[{
+//     task: taskNb,
+//     exercise: wxerciseNb,
+//     score:score,
+//     total: maxScore
+//     weight: weight of the task
+// }]
+var taskHistory = [];
+
+
+
+
+function refreshProgress(){
+    var taskScore = 0;
+    var taskPossibleScore = 0;
+    var totalScore = 0;
+    var totalPossibleScore = 0;
+
+    console.log("taskHistory: ", taskHistory);
+
+    taskHistory.forEach(element => {
+        
+        totalScore += element.score/element.total * element.weight;
+        totalPossibleScore += element.weight;
+
+        if (currentTask == element.task){
+            taskScore += element.score/element.total * element.weight;
+            taskPossibleScore += element.weight;
+        }
+
+    });
+
+    
+    console.log("Score: ", taskScore, taskPossibleScore, totalScore, totalPossibleScore);
+    setProgress(taskScore/taskPossibleScore, totalScore/totalPossibleScore);
+}
+
+function addNewTaskInfo(task, exercise, score, possibleScore, weight){
+    if (currentTask < task){
+        currentTask = task;
+        currentExercise = exercise;
+    }
+    else if (currentTask == task && currentExercise < exercise){
+        currentExercise = exercise;
+    }
+    else{
+        return; //No new information gained -- first answer counts
+    }
+    taskHistory.push({
+        score: score,
+        total: possibleScore, 
+        task: task,
+        exercise: exercise,
+        weight: weight
+    })
+    refreshProgress();
+}
+
+
+
+function addApple(){
+    //TODO
+    console.log("Apple Added");
+    var x = Math.random();
+    var y = Math.random();
+    var leftMin = 30;
+    var leftMax = 60;
+    var left = leftMin + (leftMax-leftMin)*x;
+    
+    var topMin = 10;
+    var topMax = 50;
+    var top = topMin + (topMax-topMin)*y;
+    $("#treeDiv").append(`<img src="/images/apple.png" style="position: absolute; height: 2vh; left: ${left}%; top: ${top}%">`);
+}

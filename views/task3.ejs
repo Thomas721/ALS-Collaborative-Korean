@@ -15,19 +15,11 @@
         <script src="/js/jquery.ui.touch-punch.min.js"></script>
     </head>
     <body>
-        <% 
-            var title = "Task 2: Syllables";
-            var objective = "Dong-moel (Animal)"
-            var exercise = 0;
-            var progress = 40;
-            var korean = ["aaa1", "aaa2", "aaa3", "aaa4", "aaa5"];
-            var solution = "01";
-        %>
         <!--Create ProgressBar on top-->
         <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar> 
 
         <!-- Create english-korean label on top -->
-        <div class="taskLabel" style = "top: 15%; left: 50%; transform: translate(-50%, 0);"> <p class="taskLabelText"><%= objective %></p> </div>
+        <div class="taskLabel" style = "top: 15%; left: 50%; transform: translate(-50%, 0);"> <p class="taskLabelText"><%= word %></p> </div>
 
         <!--Create empty labels-->
         <div id = "e0" class="emptyLabel"></div>
@@ -35,25 +27,25 @@
 
         <!-- Create Korean labels --> 
         <div id = "k0" class="koreanLabel">
-            <h1 class="labelText"><%= korean[0] %></h1>
+            <h1 class="labelText"><%= koreanLabels[0] %></h1>
         </div>
         <div id = "k1" class="koreanLabel">
-            <h1 class="labelText"><%= korean[1] %></h1>
+            <h1 class="labelText"><%= koreanLabels[1] %></h1>
         </div>
         <div id = "k2" class="koreanLabel">
-            <h1 class="labelText"><%= korean[2] %></h1>
+            <h1 class="labelText"><%= koreanLabels[2] %></h1>
         </div>
         <div id = "k3" class="koreanLabel">
-            <h1 class="labelText"><%= korean[3] %></h1>
+            <h1 class="labelText"><%= koreanLabels[3] %></h1>
         </div>
         <div id = "k4" class="koreanLabel">
-            <h1 class="labelText"><%= korean[4] %></h1>
+            <h1 class="labelText"><%= koreanLabels[4] %></h1>
         </div>
 
         
 
         
-        <button id = "check" class="button btnNext" onclick="check();" style = "top: 57%; left: 50%; transform: translate(-50%, 0);" >
+        <button id = "check" class="button btnNext" onclick="check();" style = "top: 60%; left: 50%; transform: translate(-50%, 0);" >
             <h1 class="nextText">Check</h1>
         </button>
     </body>

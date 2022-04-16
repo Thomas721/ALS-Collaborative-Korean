@@ -14,21 +14,43 @@
 
     </head>
     <body style="background-color: #C6ECF4;">
-        <% 
-            var progress = 5;
-            var exercise = 1;
-            var task = 3;
-            var name1 = "name1";
-            var name2 = "name2";
-            var taskProgress = 0.75;
-        %>
-        <script>
+        <script>  
             var io = io();
+            console.log("Connected to server");
+            io.emit('init', ("dashboard"));  
+            
+            io.on("completedExercise", ({score, total, task, exercise, weight})=> {
+                console.log("New information received");
+                addNewTaskInfo(task, exercise, score, total, weight);
+                refreshProgress();
+                if (score == total){
+                    addApple();
+                }
+                console.log("Progress updated");
+            });
+
+            io.on("updateProgress", ({progress}) => {
+                setTaskProgress(progress);
+            });
+
+            io.on("addApple", () => {
+                addApple();
+            });
+
+
+            io.on("newTask", ({task, time}) => {
+                startTimeTask = time;
+                updateProgressCircle("completion1", 0);
+                updateProgressCircle("accuracy1", 0);
+                $("#taskText").text(`Task ${task} Analytics`);
+            });
+            var startTime = Date.parse("<%= startTime%>");
+            var startTimeTask = Date.parse("<%=startTimeTask%>");
         </script>
 
         <div style="position: absolute; left: 0%; top: 0%; height: 70%; width: 100%;">
-            <div style="position: absolute; left: 0%; top: 0%; height: 100%; width: 50%;">
-                <img id = "tree" src="/images/tree.png" style="position: absolute; left: 50%; bottom: 0%; transform: translate(-50%, 0%); height: 100%;">
+            <div id = "treeDiv" style="position: absolute; left: 25%; bottom: -3%; height: fit-content; width: fit-content; transform:  translate(-50%, 0%);">
+                <img id = "tree" src="/images/tree.png" style="height: 30vh;">
             </div>
             <div style="position: absolute; left: 50%; top: 0%; height: 100%; width: 50%;">
                 <img id="seesawPlank" src="/images/SeesawPlank.png" 
@@ -41,7 +63,7 @@
         <div style="position: absolute; width: 100vw; height: 30%; top: 70%;">
             <div class="analyticsPanel">
                 <div class="analyticsLabel">
-                    <b class="title">Task <%= task %> Analytics </b>
+                    <b id = "taskText" class="title">Task 1 Analytics </b>
                 </div>
                 
                 <div id="completion1" class = "progressCircle" style="left: 20%;"></div>
