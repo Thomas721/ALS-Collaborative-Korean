@@ -13,6 +13,8 @@
 
         <!-- For draggable -->
         <script src="/js/jquery.ui.touch-punch.min.js"></script>
+        <!-- socket connection -->
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
         <% 
@@ -37,7 +39,7 @@
         <div id = "k0" class="koreanLabel">
             <h1 class="labelText"><%= koreanLabels[0] %></h1>
         </div>
-        <div id = "k1" class="koreanLabel">
+        <div id = "k1" class="koreanLabel" >
             <h1 class="labelText"><%= koreanLabels[1] %></h1>
         </div>
         <div id = "k2" class="koreanLabel">
@@ -48,14 +50,19 @@
         </div>
         <div id = "k4" class="koreanLabel">
             <h1 class="labelText"><%= koreanLabels[4] %></h1>
-        </div>
-
-        
+        </div>      
 
         
         <button id = "check" class="button btnNext" onclick="check();" style = "top: 60%; left: 50%; transform: translate(-50%, 0);" >
             <h1 class="nextText">Check</h1>
         </button>
+
+                
+        <div id = "score" class = "score"> <b id = "scoreText" class="labelText"> </b></div>
+        <button id = "continue" class="button btnNext" onclick="nextEx();" style = "top: 90%; left: 50%; transform: translate(-50%, -50%);" >
+            <h1 class="nextText">Continue</h1>
+        </button>
+
     </body>
 
     <script>

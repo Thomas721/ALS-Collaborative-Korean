@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>ALS-Collaborative Korean</title>
+        <link rel="stylesheet" href="/css/design.css" type="text/css">
+        <!-- Jquery file and lib -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    </head>
+    <style>
+        .selectOptionBox{
+            position: absolute;
+            width: 25%;
+            height: 25%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #6F86A9;
+            border-radius: 3vh;
+            padding: 0;
+        }
+        .selectBoxText{
+            position: absolute;
+            font-size: 3vw;
+            color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0;
+        }
+    </style>
+    <body>
+
+        <div id = "person1" class="selectOptionBox" style="left: 20%"><b class = "selectBoxText">Person 1</b></div>
+        <div id = "dashboard" class="selectOptionBox" style="left: 50%"><b class = "selectBoxText">Dashboard</b></div>
+        <div id = "person2" class="selectOptionBox" style="left: 80%"><b class = "selectBoxText">Person 2</b></div>
+        
+    </body>
+    <script>
+        $("#person1").on('click', (event)=>{
+            window.location.replace("/start/0");
+        });
+
+        $("#person2").on('click', (event)=>{
+            window.location.replace("/start/1");
+        });
+
+        $("#dashboard").on('click', (event)=>{ 
+            window.location.replace("/dashboard");
+        });
+    </script>
+</html>

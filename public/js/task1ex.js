@@ -3,7 +3,7 @@ var spacingKor = 3;
 var width = 16;
 var engLabelTop = 20;
 var emptyTop = 40;
-var korLabelTop = 70;
+var korLabelTop = 75;
 
 var left = (100 - 4*width - 3*spacing)/2;
 var leftKor = (100 - 5*width - 4*spacingKor)/2;
@@ -23,6 +23,9 @@ $(function() {
     }
 
     $("#check").hide();
+    $("#score").hide();
+    $("#continue").hide();
+
 
     $(".koreanLabel").draggable({
         revert : "invalid"
@@ -68,11 +71,21 @@ $(function() {
             if (label.attr("class") == "labelText"){
                 label = label.parent();
             }
-            var audioname = label.children().text();
             if (label.attr("spot") != -1){
                 reset(label);
             }
         });
+
+        $(".englishLabel").on("click", 
+        function onClick(event) {
+              var label = $(event.target);
+              if (label.attr("class") == "labelText"){
+                  label = label.parent();
+              }
+              var audioname = label.children().text();
+              var audio = new Audio("/audio/" + audioname + ".m4a");
+              audio.play();
+        })
 
         $(".englishLabel").on("click", (event) =>{
             var label = $(event.target);
@@ -96,14 +109,56 @@ function reset(label){
     $("#check").hide();
 }
 
+
+
+var score = 0;
+var total = 0;
 function check(){
-    var score = 0;
-    var total = 0;
+    var wrongAnswers = [];
+    score = 0;
+    total = 0;
     for(var i = 0; i < solution.length; i++){
         if (solution[i] == sequence[i]){
             score++;
         }
+        else wrongAnswers.push(i);
         total++;
     }
+    if (score == total){
+        window.location.replace(`/completeExercise/${score}/${total}/1`);
+    }
+    else{
+        showMistakes(wrongAnswers);
+    }
+}
+
+function showMistakes(wrongAnswers){
+    wrongAnswers.forEach(wrongAnswer => {
+        var wrongLabel = "#k" + sequence[wrongAnswer];
+        $(wrongLabel).css("background-color", "red");
+        $(wrongLabel).css("border-color", "red");
+        console.log(wrongLabel);
+    });
+    
+    
+    $(".koreanLabel").draggable({
+        disabled: true
+    });
+    $(".koreanLabel").each(function(index){
+        console.log($(this));
+        if ($(this).attr("spot") == -1){
+            $(this).hide()
+        }
+    });
+
+
+    $("#check").hide();
+    $("#scoreText").text(`Score: ${score}/${total}`);
+    $("#score").show();
+    $('#continue').show();
+
+}
+
+function nextEx(){
     window.location.replace(`/completeExercise/${score}/${total}/1`);
 }

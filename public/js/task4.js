@@ -1,5 +1,9 @@
 
 $(function() {
+
+    $("#continue").hide();
+    $("#correction").hide();
+
     $(".taskLabel").on("click", 
     function onClick(event) {
         console.log("click");
@@ -22,6 +26,7 @@ var possibleScore = 0;
 function check(){
     var input = $("input").val();
     var wrong = [];
+    possibleScore = solution.length;
     for (i = 0; i < input.length; i++){
         if (input.charAt(i) == solution.charAt(i)){
             score++;
@@ -29,16 +34,21 @@ function check(){
         else {
             wrong.push(i);
         };
-        possibleScore++;
     }
     console.log(possibleScore, score, solution);
     if (possibleScore == score) {
-            console.log("correct");
-            window.location.replace(`/completeExercise/`);
+            window.location.replace(`/completeExercise/${score}/${possibleScore}/2`);
+    }
+    else{
+        $("#check").hide();
+        $("#correction").show();
+        $("#correctionText").text(`Incorrect! \n The correct answer was: \n ${solution}`);
+        $("#continue").show();
+
     }
     
 }
 
-function next(){
+function nextEx(){
     window.location.replace(`/completeExercise/${score}/${possibleScore}/2`);
 }

@@ -85,9 +85,11 @@ io.on('connection', (socket)=>{
         break;
     }
   });
+});
 
-
-
+//send info to dashBoard
+io.on("completedExercise", ({score, total, task, exercise, weight})=> {
+  req.io.to("dashboard").emit("completedExercise", {score, total, task, exercise, weight});
 });
 
 

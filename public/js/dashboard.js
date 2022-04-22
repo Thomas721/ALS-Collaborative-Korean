@@ -132,11 +132,13 @@ function setTaskProgress(progress){
 }
 
 function updateProgressCircle(name, value){
+    //get previous value
+    var prevValue = $(`#${name}Text`).text();
+    prevValue = parseInt(prevValue.substring(0,prevValue.length-1))/100
     $(`#${name}Text`).text("" + Math.round(value) + "%");
-    // var startValue = $(`#${name}`).attr("data-value");       TODO: determine startValue
     $(`#${name}`).circleProgress({
-        value: value/100
-        // animationStartValue: startValue
+        value: value/100,
+        animationStartValue: prevValue
     });
 }
 

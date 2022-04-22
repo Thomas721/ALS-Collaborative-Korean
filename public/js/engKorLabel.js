@@ -30,6 +30,11 @@ template.innerHTML = `
                 width: 50%;
                 height: 100%;
                 background-color: #6F86A9;
+                background-image: url("/images/speaker.png");
+                background-size: 10%;
+                background-position-x: 10%;
+                background-position-y: 10%;
+                background-repeat: no-repeat;
             }
             
             .labelText {
@@ -84,6 +89,11 @@ class EnglishKoreanLabel extends HTMLElement{
         
         this.shadowRoot.getElementById("label").style= `left: ${left}%; top: ${top}%;`;
         this.shadowRoot.getElementById("textLabel").style= `left: ${left}%; top: ${top}%; background-color: transparent;`;
+
+        this.onclick = () => {
+            var audio = new Audio("/audio/" + english + ".m4a");
+            audio.play();
+        }
         
         
     }

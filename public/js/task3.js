@@ -3,7 +3,7 @@ var spacingKor = 3;
 var width = 16;
 var engLabelTop = 20;
 var emptyTop = 40;
-var korLabelTop = 70;
+var korLabelTop = 75;
 
 var left = (100 - 2*width - 1*spacing)/2;
 var leftKor = (100 - 5*width - 4*spacingKor)/2;
@@ -22,6 +22,8 @@ $(function() {
     }
 
     $("#check").hide();
+    $("#score").hide();
+    $("#continue").hide();
 
     $(".koreanLabel").draggable({
         revert : "invalid"
@@ -65,14 +67,14 @@ $(function() {
         if (label.attr("class") == "labelText"){
             label = label.parent();
         }
-        var audioname = label.children().text();
+        // var audioname = label.children().text();
         if (label.attr("spot") != -1){
             reset(label);
         }
-        else{
-            var audio = new Audio("/audio/" + audioname + ".m4a");
-            audio.play();
-        }
+        // else{
+        //     var audio = new Audio("/audio/" + audioname + ".m4a");
+        //     audio.play();
+        // }
     })
     $(".taskLabel").on("click", 
     function onClick(event) {
@@ -105,14 +107,53 @@ function reset(label){
     $("#check").hide();
 }
 
+var score = 0;
+var total = 0;
 function check(){
-    var score = 0;
-    var total = 0;
+    var wrongAnswers = [];
+    score = 0;
+    total = 0;
     for(var i = 0; i < solution.length; i++){
         if (solution[i] == sequence[i]){
             score++;
         }
+        else wrongAnswers.push(i);
         total++;
     }
+    if (score == total){
+        window.location.replace(`/completeExercise/${score}/${total}/1`);
+    }
+    else {
+        showMistakes(wrongAnswers);
+    }
+}
+
+function showMistakes(wrongAnswers){
+    wrongAnswers.forEach(wrongAnswer => {
+        var wrongLabel = "#k" + sequence[wrongAnswer];
+        $(wrongLabel).css("background-color", "red");
+        $(wrongLabel).css("border-color", "red");
+        console.log(wrongLabel);
+    });
+    
+    $(".koreanLabel").draggable({
+        disabled: true
+    });
+
+    
+    $(".koreanLabel").each(function(index){
+        console.log($(this));
+        if ($(this).attr("spot") == -1){
+            $(this).hide()
+        }
+    });
+    
+    $("#check").hide();
+    $("#scoreText").text(`Score: ${score}/${total}`);
+    $("#score").show();
+    $('#continue').show();
+}
+
+function nextEx(){
     window.location.replace(`/completeExercise/${score}/${total}/1`);
 }

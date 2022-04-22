@@ -8,6 +8,11 @@
     border-color: #6F86A9;
     background-color: #6F86A9;
     padding: 0;
+    background-image: url("/images/speaker.png");
+    background-size: 10%;
+    background-position-x: 2%;
+    background-position-y: 2%;
+    background-repeat: no-repeat;
 }
 
 .koreanLabel {

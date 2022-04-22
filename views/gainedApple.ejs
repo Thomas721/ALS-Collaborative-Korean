@@ -8,9 +8,11 @@
     <style>
         .btnanswer {
             position: absolute;
-            height: 20%; 
-            width: 20%;
-
+            height: fit-content;
+            width: 40%;
+            left: 50%;
+            top: 85%;
+            transform: translate(-50%, -50%);
         }
     </style>
     <body>
@@ -22,33 +24,19 @@
             <!-- ask for test for apple -->
             <div class="infoBox" style="min-width: 40%; height: 60%; position: relative; overflow: hidden;">
                 <h2 class="infoText" id = "infoText">
-                    Do you want a small <br>
-                    test for an apple?                
+                    Congratiolations! <br>
+                    You have gained an apple!
                 </h2>
                 <img src="/images/apple.png" alt="" style="height: 25%;">
-                <button class="button btnanswer" onclick="yes();" style="right: 20%; bottom: 10%;">
-                    <h2 class="infoText" style = "margin: 0; "> Yes! </h2>
-                </button>
-                <button class="button btnanswer" onclick="no();" style="left: 20%; bottom: 10%;">
-                    <h2 class="infoText" style = "margin: 0; "> no... </h2>
+                <button class="button btnanswer" onclick="Continue();">
+                    <b class="infoText">Continue</b>
                 </button>
             </div>
 
         </div>
     </body>
     <script>
-        function gotIt(){
-            // if (task == "0"){
-            //     window.location.replace("/intro/task1");
-            // }
-            // else{     
-            // window.location.replace("/");
-            // }
-        }
-        function yes(){
-            window.location.replace("/appleQuestion");
-        }
-        function no(){
+        function Continue(){  
             window.location.replace("/exercises");
         }
     </script>

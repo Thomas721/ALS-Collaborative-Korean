@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ALS-Collaborative Korean</title>
+        <link rel="stylesheet" href="/css/design.css" type="text/css">
+    </head>
+    <body>
+        <% 
+            var progress = 5;
+            var exercise = 1;
+        %>
+        <!--Create ProgressBar on top-->
+        <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar> 
+
+        <!--Create english-korean labels-->
+        <eng-kor-label english = "<%= englishLabels[0] %>" korean = "<%= koreanLabels[0] %>" pos = "topleft"></eng-kor-label>
+        <eng-kor-label english = "<%= englishLabels[1] %>" korean = "<%= koreanLabels[1] %>" pos = "topright"></eng-kor-label>
+        <eng-kor-label english = "<%= englishLabels[2] %>" korean = "<%= koreanLabels[2] %>" pos = "downleft"></eng-kor-label>
+        <eng-kor-label english = "<%= englishLabels[3] %>" korean = "<%= koreanLabels[3] %>" pos = "downright"></eng-kor-label>
+        <button class="button btnNext" onclick="goNext();"><h1 class="nextText">Next</h1></button>
+    </body>
+
+    <script>
+        function goNext(){
+            window.location.replace("/appleRequest");
+        }
+    </script>
+    <script src = "/js/progressBar.js"></script>
+    <script src = "/js/engKorLabel.js"></script>
+</html>

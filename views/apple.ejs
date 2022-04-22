@@ -4,6 +4,7 @@
         <meta charset = "utf-8">
         <title>ALS-Collaborative Korean</title>
         <link rel="stylesheet" href="/css/design.css" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <style>
         .btnanswer {
@@ -13,6 +14,12 @@
 
         }
     </style>
+
+    <% 
+        if (image == undefined){
+            var image = "";
+        }
+    %> 
     <body>
         <div class="VCcontainer">
 
@@ -20,10 +27,11 @@
             <progress-bar progress = <%=progress%> title = "<%= title %>" ></progress-bar>   
             
             <!--Create infobox with question and possible answers-->
-            <div class="infoBox" style="min-width: 75%; height: 60%; position: relative; overflow: hidden;">
+            <div class="infoBox" style="min-width: 75%; height: 65%; position: relative; overflow: hidden;">
                 <h2 class="infoText" id = "infoText">
                     <%=question%>
                 </h2>
+                <h2 class="infoText" style="color: red;" id = "solution"></h2>
                 <button id = "btn1" class="button btnanswer" onclick="choose(0);" style="left: 10%; bottom: 10%;">
                     <h2 class="infoText" style = "margin: 0; "> <%= answers[0] %> </h2>
                 </button>
@@ -35,15 +43,51 @@
                 </button>
             </div>
 
+            <div class="button" id="continue" style="position: absolute; left: 50%; top: 55%; transform: translate(-50%, -50%);">
+                <b class = "infoText" style="font-size: 4vw;">Continue</b>
+            </div>
+
+            <!-- <div id = "feedback" class="infoBox" style="min-width: 75%; height: 60%; position: relative; overflow: hidden;">
+                <h2 class="infoText" id = "feedbackText">
+                    <%=feedback%>
+                </h2>
+            </div> -->
+
         </div>
     </body>
     <script>
+        var alreadyChosen = false;
+        $(function() {
+            var img = "<%= image %>";
+            if (img.length > 0){
+                $(".infoBox").append(`<img id = "img" src="${img}" alt="" style="height: 25%;">`)
+            }
+
+            $("#continue").hide();
+
+            $("#continue").on("click", function(){
+                window.location.replace(`/exercises`);
+            });
+
+        });
+
+
+
         function choose(choice){
+            if (alreadyChosen){
+                return;
+            }
             if (choice == "<%= correctAnswer %>"){
                 window.location.replace(`/appleCorrect`);
             }
             else{
-                //TODO Tell Solution
+                alreadyChosen =true;
+                var name = "#btn" + (choice + 1);
+                $(name).css("background-color", "red");
+                $(name).css("border-color", "red");
+                $("#infoText").text("<%= feedback %>")
+                $("#continue").show();
+                $("#img").hide();
             }
         }
     </script>

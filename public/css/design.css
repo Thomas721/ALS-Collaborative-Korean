@@ -1,11 +1,17 @@
   body{
+    position: absolute;
     overflow: hidden;
-    height: 100%;
     margin: 0;
     user-select: none;
     -webkit-user-select: none;
+    left: 0;
+    top: 0;
     width: 100vw;
-    height: 100vh;
+    height: 85vh;
+    background-image: url("/images/koreanBG.png");
+    background-size: 150%;
+    background-position-x: 40%;
+    background-position-y: 30%;
   }
   .VCcontainer {
     align-self: center;
@@ -14,8 +20,8 @@
     justify-content: center;
     flex-direction: column;
     margin: 0;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
   }
   .infoBox {
     vertical-align: middle;
@@ -46,7 +52,7 @@
   }
 
   .btnNext{
-    position: absolute;
+    position: relative;
     left: 88%;
     top: 85%;
   }
@@ -63,7 +69,7 @@
   .button:active{
     
     box-shadow: 0 5px rgb(39, 39, 39);
-    transform: translateY(4px);
+    /* transform: translateY(4px); */
   }
 
   input[type="text"]
@@ -73,4 +79,16 @@
     border-radius: 1vw;
     padding: 3%;
     border-color: black;
+}
+
+.score{
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+  background-color: #2559a7;
+  width: fit-content;
+  height: fit-content;
+  padding: 2px;
+  border-radius: 2vw;
 }

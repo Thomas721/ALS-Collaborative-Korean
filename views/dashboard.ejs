@@ -43,21 +43,24 @@
                 updateProgressCircle("completion1", 0);
                 updateProgressCircle("accuracy1", 0);
                 $("#taskText").text(`Task ${task} Analytics`);
+                console.log("time: ", time);
+                startTimeTask = Date.parse(time);
             });
             var startTime = Date.parse("<%= startTime%>");
             var startTimeTask = Date.parse("<%=startTimeTask%>");
         </script>
 
         <div style="position: absolute; left: 0%; top: 0%; height: 70%; width: 100%;">
-            <div id = "treeDiv" style="position: absolute; left: 25%; bottom: -3%; height: fit-content; width: fit-content; transform:  translate(-50%, 0%);">
-                <img id = "tree" src="/images/tree.png" style="height: 30vh;">
+            <img src="/images/fieldBackground.jpg" style="width: 100%; position: absolute; bottom: 0%;">
+            <div id = "treeDiv" style="position: absolute; left: 5%; top: 50%; height: 100%; width: fit-content; transform:  translate(-50%, -50%);">
+                <img id = "tree" src="/images/tree.png" style="height: 30%; position: absolute; bottom: 0%;">
             </div>
-            <div style="position: absolute; left: 50%; top: 0%; height: 100%; width: 50%;">
+            <div style="position: absolute; left: 45%; top: 0%; height: 95%; width: 40%;">
                 <img id="seesawPlank" src="/images/SeesawPlank.png" 
-                    style="position: absolute; left: 50%; bottom: 10%; transform: translate(-50%, 0%); width: 100%; transform-origin: center center;">
-                <img src="/images/SeesawBase.png" style="position: absolute; left: 50%; bottom: 10%; transform: translate(-50%, 0%); width: 100%;">
-                <div class="circleName"  style = "left:  15%; bottom: 10%;"> <b class="seesawName"> <%= name1 %> </b></div>
-                <div class="circleName"  style = "left:  85%; bottom: 10%;"> <b class="seesawName"> <%= name2 %> </b></div>
+                    style="position: absolute; left: 50%; bottom: -10%; transform: translate(-50%, 0%); width: 100%; transform-origin: center center;">
+                <img src="/images/SeesawBase.png" style="position: absolute; left: 50%; bottom: -10%; transform: translate(-50%, 0%); width: 100%;">
+                <div class="circleName"  style = "left:  20%; top: 95%; transform: translate(-50%, -50%);"> <b class="seesawName"> <%= name1 %> </b></div>
+                <div class="circleName"  style = "left:  80%; top: 95%; transform: translate(-50%, -50%);"> <b class="seesawName"> <%= name2 %> </b></div>
             </div>
         </div>
         <div style="position: absolute; width: 100vw; height: 30%; top: 70%;">
