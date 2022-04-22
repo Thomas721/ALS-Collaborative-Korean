@@ -118,12 +118,13 @@ function setProgress(taskAcc, totalAcc){
 
 
 var minTreeHeight = 30;
-var maxTreeHeight = 50;
+var maxTreeHeight = 75;
 
 function setTaskProgress(progress){
     taskProgress = progress;
     updateProgressCircle("completion1", progress);
     var newTotalProgress = Math.max(currentTask-1, 0)/totaltasks + 1/totaltasks * progress/100;
+    console.log(newTotalProgress, currentTask);
     updateProgressCircle("completion2",newTotalProgress * 100);
 
     var newTreeHeight = minTreeHeight + (maxTreeHeight-minTreeHeight) * newTotalProgress;
