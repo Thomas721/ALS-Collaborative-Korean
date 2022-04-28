@@ -54,98 +54,8 @@ $(function () {
 });
 
 
-var totalExercises = 21;
-var taskExercises = [6, 6, 3, 3, 3];
-var taskNb = 0;
-var totalExCompleted = 0;
-var totalExCorrect = 0;
-var taskExCompleted = 0;
-var taskExCorrect = 0;
-var taskStartTime = new Date;
-function updateProgress(taskNumber, correct, value = 1) {
-    totalExCompleted += value;
-    if (correct){
-        totalExCorrect += value;
-    }
-    if (taskNb == taskNumber){
-        taskExCompleted += value;
-        if (correct){
-            taskExCorrect += value;
-        }
-    }
-    else {
-        taskNb = taskNumber;
-        taskExCompleted = value;
-        if (correct){
-            taskExCorrect = value;
-        }
-    }
 
-    var taskCompl = taskExCompleted/(taskExercises[taskNb-1]);
-    var totalCompl = totalExCompleted/totalExercises;
-    setProgress(taskCompl, taskExCorrect/taskExCompleted, totalCompl, totalExCorrect/totalExCompleted);
-}
-
-
-function transformTime(newDate, startTime){
-    var interval = (newDate - startTime) / 1000;
-    var minutes = Math.floor(interval/60);
-    var seconds = Math.round(interval%60);
-    if (seconds < 10){
-        seconds = "0" + seconds;
-    }
-    return "" + minutes + ":" + seconds;
-}
-
-function rotateSeesaw(ratio){
-    var maxAngle = 20;
-    var newAngle = -maxAngle + ratio * maxAngle;    
-    $("#seesawPlank").css("transform", ` translate(-50%, 0%) rotate(${newAngle}deg)`);
-}
-
-
-var currentTask = 0;
-var currentExercise = 0;
-var taskProgress = 0;
-var totaltasks = 5;
-var totalExercises = [2, 2, 3, 3, 3];
-
-
-function setProgress(taskAcc, totalAcc){
-    updateProgressCircle("accuracy1", taskAcc * 100);
-    updateProgressCircle("accuracy2", totalAcc * 100);
-}
-
-
-var minTreeHeight = 30;
-var maxTreeHeight = 75;
-
-function setTaskProgress(progress){
-    taskProgress = progress;
-    updateProgressCircle("completion1", progress);
-    var newTotalProgress = Math.max(currentTask-1, 0)/totaltasks + 1/totaltasks * progress/100;
-    console.log(newTotalProgress, currentTask);
-    updateProgressCircle("completion2",newTotalProgress * 100);
-
-    var newTreeHeight = minTreeHeight + (maxTreeHeight-minTreeHeight) * newTotalProgress;
-    $("#tree").css("height", `${newTreeHeight}vh`)
-      
-}
-
-function updateProgressCircle(name, value){
-    //get previous value
-    var prevValue = $(`#${name}Text`).text();
-    prevValue = parseInt(prevValue.substring(0,prevValue.length-1))/100
-    $(`#${name}Text`).text("" + Math.round(value) + "%");
-    $(`#${name}`).circleProgress({
-        value: value/100,
-        animationStartValue: prevValue
-    });
-}
-
-
-
-
+//____________________________SEESAW____________________________________
 //Make the seesaw work
 var person1Weight = 1000;
 var person2Weight = 1000;
@@ -168,6 +78,58 @@ document.onkeydown = function(e) {
     rotateSeesaw(person1Weight/person2Weight);
 };
 
+document.onkeyup = function(e){
+    console.log("key up");
+}
+
+function rotateSeesaw(ratio){
+    var maxAngle = 20;
+    var newAngle = -maxAngle + ratio * maxAngle;    
+    $("#seesawPlank").css("transform", ` translate(-50%, 0%) rotate(${newAngle}deg)`);
+}
+//____________________________________________________________________________
+
+
+
+
+var currentTask = 0;
+var currentExercise = 0;
+var totaltasks = 5;
+var taskProgress = 0;
+var taskStartTime = new Date;
+
+
+function setProgress(taskAcc, totalAcc){
+    console.log("accuracy progress changed");
+    updateProgressCircle("accuracy1", taskAcc * 100);
+    updateProgressCircle("accuracy2", totalAcc * 100);
+}
+
+
+var minTreeHeight = 30;
+var maxTreeHeight = 75;
+
+function setTaskProgress(progress, task){
+    console.log("progress: ", progress, taskProgress, task, currentTask);
+    //Progress update from the one behind
+    if (progress < taskProgress && task == currentTask) return;
+    if (task < currentTask) return;
+
+    //last exercise completed
+    if (task > currentTask && task > 1){
+        taskProgress = 100;
+    }
+    else taskProgress = progress;
+    updateProgressCircle("completion1", taskProgress);
+    var newTotalProgress = Math.max(currentTask-1, 0)/totaltasks + 1/totaltasks * taskProgress/100;
+    console.log(newTotalProgress, currentTask);
+    updateProgressCircle("completion2",newTotalProgress * 100);
+
+    var newTreeHeight = minTreeHeight + (maxTreeHeight-minTreeHeight) * newTotalProgress;
+    $("#tree").css("height", `${newTreeHeight}vh`)
+      
+}
+
 
 //Keeps the information of the score of the previous tasks
 //[{
@@ -181,7 +143,7 @@ var taskHistory = [];
 
 
 
-
+//calculate new accuracy and change acc. progress circles
 function refreshProgress(){
     var taskScore = 0;
     var taskPossibleScore = 0;
@@ -216,7 +178,13 @@ function addNewTaskInfo(task, exercise, score, possibleScore, weight){
         currentExercise = exercise;
     }
     else{
-        return; //No new information gained -- first answer counts
+        taskHistory.forEach(completedTask => {
+            if (completedTask.task == task && completedTask.exercise == exercise){
+                completedTask.score = Math.min(score, completedTask.score);
+            }
+        }); //No new information gained -- lowest answer counts
+        refreshProgress();
+        return;
     }
     taskHistory.push({
         score: score,
@@ -226,6 +194,11 @@ function addNewTaskInfo(task, exercise, score, possibleScore, weight){
         weight: weight
     })
     refreshProgress();
+
+    //Only reached if not already submitted
+    if (score == possibleScore){
+        addApple();
+    }
 }
 
 
@@ -243,4 +216,41 @@ function addApple(){
     var topMax = 50;
     var top = topMin + (topMax-topMin)*y;
     $("#treeDiv").append(`<img src="/images/apple.png" style="position: absolute; height: 2vh; left: ${left}%; top: ${top}%">`);
+}
+
+function transformTime(newDate, startTime){
+    var interval = (newDate - startTime) / 1000;
+    var minutes = Math.floor(interval/60);
+    var seconds = Math.round(interval%60);
+    if (seconds < 10){
+        seconds = "0" + seconds;
+    }
+    return "" + minutes + ":" + seconds;
+}
+
+function updateProgressCircle(name, value){
+    //get previous value
+    var prevValue = $(`#${name}Text`).text();
+    prevValue = parseInt(prevValue.substring(0,prevValue.length-1))/100
+    $(`#${name}Text`).text("" + Math.round(value) + "%");
+    $(`#${name}`).circleProgress({
+        value: value/100,
+        animationStartValue: prevValue,
+        duration: 1500
+    });
+}
+
+function startNewTask(task, time){
+    //not new task
+    if (currentTask >= task) return;
+
+    currentExercise = -1;
+    currentTask = task;
+    startTimeTask = Date.parse(time);
+    taskProgress = 0;
+    
+    // updateProgressCircle("completion1", 0); //already called by updated progress in router
+    updateProgressCircle("accuracy1", 0);
+    $("#taskText").text(`Task ${task} Analytics`);
+    console.log("time: ", time);
 }

@@ -22,15 +22,10 @@
             io.on("completedExercise", ({score, total, task, exercise, weight})=> {
                 console.log("New information received");
                 addNewTaskInfo(task, exercise, score, total, weight);
-                refreshProgress();
-                if (score == total){
-                    addApple();
-                }
-                console.log("Progress updated");
             });
 
-            io.on("updateProgress", ({progress}) => {
-                setTaskProgress(progress);
+            io.on("updateProgress", ({progress, task}) => {
+                setTaskProgress(progress, task);
             });
 
             io.on("addApple", () => {
@@ -38,13 +33,8 @@
             });
 
 
-            io.on("newTask", ({task, time}) => {
-                startTimeTask = time;
-                updateProgressCircle("completion1", 0);
-                updateProgressCircle("accuracy1", 0);
-                $("#taskText").text(`Task ${task} Analytics`);
-                console.log("time: ", time);
-                startTimeTask = Date.parse(time);
+            io.on("newTask", ({task, time}) => {                
+                startNewTask(task, time);
             });
             var startTime = Date.parse("<%= startTime%>");
             var startTimeTask = Date.parse("<%=startTimeTask%>");

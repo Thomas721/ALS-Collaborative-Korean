@@ -69,6 +69,11 @@ router.get("/exercises", (req, res)=>{ //request from introductionscreen task = 
         return;
     }
 
+    //notify dashboard new task started
+    if (exercise == 0 && !req.session.theoryDone){
+        req.io.to("dashboard").emit("newTask", {task: task, time: new Date});
+    }
+
     var taskData;
     var file = `task${task}`;
     if (task == 5) file = 'task4'; //Task 5 and 4 share the same html file
@@ -102,7 +107,6 @@ router.get("/completeExercise/:score/:total/:weight", (req, res)=>{
         req.session.exercise = 0;
         req.session.introDone = false;
         task = ++req.session.task;
-        req.io.to("dashboard").emit("newTask", {task: task, time: new Date});
     }
   
     if (score == total){
@@ -152,7 +156,7 @@ function progress(req){
     progress += 1/totalExercises[task-1] * (1/2 * session.theoryDone);
     progress = progress * 100;
 
-    req.io.to("dashboard").emit("updateProgress", {progress: progress});
+    req.io.to("dashboard").emit("updateProgress", {progress: progress, task: task});
 
     return  progress;
 }
@@ -171,7 +175,7 @@ function addData(data, title, progress){
 
 //general info of tasks:
 const totalTasks = 5;
-const totalExercises=[2, 2, 3, 3, 3];
+const totalExercises=[1, 1, 1, 1, 1];
 const hasTheory = [true, true, false, false, false];
 const introText = [
     `You and your teammate will have to solve in total 5 different tasks together. 
