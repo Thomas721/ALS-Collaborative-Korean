@@ -51,41 +51,162 @@ $(function () {
         $('#time2Text').text(transformTime(new Date, startTime));
     }, 1000);
 
+    // update conversation balance
+    setInterval(function() {
+        updateBalance();
+    }, 100);
+
+    // alerting low conversation value
+    setInterval(function() {
+        var color = "white";
+        if (conversationAlert){
+            color = "red";
+        }
+        $("#conversation0").circleProgress({
+            fill: {
+                color: color
+            }
+        });
+        $("#conversation0Text").css("color", color);
+    }, 1000);
 });
 
-
+var conversationAlert = false;
 
 //____________________________SEESAW____________________________________
 //Make the seesaw work
-var person1Weight = 1000;
-var person2Weight = 1000;
-var totalTimeTalking = 0;
+
+//array of timeStamps when each person is talking in last 5 minutes {startDate, endDate, person}
+var startbuffer = 60 * 1000;
+var interval =  startbuffer * 4;
+var conversationTracker = [];
+var seesawInitialized = false;
+
+//0 or 1 if someone is currently talking, else -1;
+var talking = -1;
+var currentTalkingData = {startDate: new Date, endDate: new Date, person: -1};
+
+function initializeSeesaw(){
+    conversationTracker = [
+        {
+            startDate: (new Date) - startbuffer,
+            endDate: new Date,
+            person: 0
+        },
+        
+        {
+            startDate: (new Date) - startbuffer,
+            endDate: new Date,
+            person: 1
+        }
+    ];
+    seesawInitialized = true;
+}
+
 document.onkeydown = function(e) {
-    switch(e.key) {        
+
+    if (!seesawInitialized){
+        initializeSeesaw();
+    }
+    switch(e.key) {      
         
         case 'ArrowLeft': {
-            person1Weight-=1;
-            person2Weight+=1;
+            if (talking == -1){
+                currentTalkingData = {startDate: new Date, endDate: new Date, person: 0};
+                talking = 0;
+                conversationTracker.push(currentTalkingData);
+            }
+            else {
+                currentTalkingData.endDate = (new Date).getTime();
+            }
             break;
         }
         case 'ArrowRight': {
-            person1Weight++;
-            person2Weight--;
+            if (talking == -1){
+                currentTalkingData = {startDate: new Date, endDate: new Date, person: 1};
+                talking = 1;
+                conversationTracker.push(currentTalkingData);
+            }
+            else {
+                currentTalkingData.endDate = (new Date).getTime();
+            }
             break;
         }
     }
-    totalTimeTalking++;
-    rotateSeesaw(person1Weight/person2Weight);
+    // updateBalance();
 };
 
 document.onkeyup = function(e){
-    console.log("key up");
+    switch(e.key) {        
+        
+        case 'ArrowLeft': {
+            if (talking == 0) talking = -1;
+            break;
+        }
+        case 'ArrowRight': {
+            if (talking == 1) talking = -1;
+            break;
+        }
+    }
+}
+
+//date of the last alert to avoid too much alerts
+var lastAlert = new Date;
+var alertInterval = 20 * 1000
+function updateBalance(){
+    var currentTime = new Date;
+    var expirationDate = currentTime - interval;
+
+    var personContribution = [0, 0]
+
+    var i = conversationTracker.length - 1;
+
+    while (i >= 0){
+        element = conversationTracker[i];
+        if (element.startDate < expirationDate){
+            if (element.endDate > expirationDate){
+                var value = element.endDate - expirationDate;
+                personContribution[element.person] += value;
+            }
+            else {
+                conversationTracker.splice(i, 1);
+            }
+        }
+        else {
+            var value = (element.endDate - element.startDate);
+            personContribution[element.person] += value;
+        }
+         i-= 1;
+    }
+
+    var balance = personContribution[1]/(personContribution[0] + personContribution[1]);
+    rotateSeesaw(balance);
+    var totalTimeTalking = (personContribution[0] + personContribution[1]);
+    var conversationValue = 100*totalTimeTalking/interval;
+    updateProgressCircle("conversation0", conversationValue);
+
+    console.log("balance: ", balance);
+    if (balance < 0.20 || balance > 0.80 || conversationValue < 10){
+        var currentDate = new Date;
+        if (currentDate - lastAlert > alertInterval){
+            var audio = new Audio("/audio/alert.mp3");
+            audio.play();
+            lastAlert = currentDate;
+        }
+    }
+
+    if (conversationValue < 10){
+        conversationAlert = true;
+    }
+    else conversationAlert = false;
 }
 
 function rotateSeesaw(ratio){
     var maxAngle = 20;
-    var newAngle = -maxAngle + ratio * maxAngle;    
+    var newAngle = -maxAngle + 2 * ratio * maxAngle;    
     $("#seesawPlank").css("transform", ` translate(-50%, 0%) rotate(${newAngle}deg)`);
+    
+    
 }
 //____________________________________________________________________________
 
@@ -180,7 +301,11 @@ function addNewTaskInfo(task, exercise, score, possibleScore, weight){
     else{
         taskHistory.forEach(completedTask => {
             if (completedTask.task == task && completedTask.exercise == exercise){
-                completedTask.score = Math.min(score, completedTask.score);
+                if (score < completedTask.score){ 
+                    completedTask.score = score;
+                    var audio = new Audio("/audio/wrong.mp3");
+                    audio.play();
+                }
             }
         }); //No new information gained -- lowest answer counts
         refreshProgress();
@@ -204,7 +329,10 @@ function addNewTaskInfo(task, exercise, score, possibleScore, weight){
 
 
 function addApple(){
-    //TODO
+    var audio = new Audio("/audio/correct.mp3");
+    audio.play();
+
+
     console.log("Apple Added");
     var x = Math.random();
     var y = Math.random();

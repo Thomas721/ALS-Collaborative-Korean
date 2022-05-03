@@ -10,8 +10,8 @@ var router = express.Router();
 var startTime = new Date;
 var startTimeTask = new Date;
 
-var name1 = "name1";
-var name2 = "name2";
+var name1 = "Opa";
+var name2 = "Oma";
 
 
 //Session variables:
@@ -39,7 +39,7 @@ router.get("/start/:personNb", (req, res) => {
 
     //initialize session
     req.session.person = person;
-    req.session.task = 0;
+    req.session.task = 0o;
     req.session.exercise = 0;
     req.session.theoryDone = false;
     req.session.introDone = false;
@@ -175,23 +175,23 @@ function addData(data, title, progress){
 
 //general info of tasks:
 const totalTasks = 5;
-const totalExercises=[1, 1, 1, 1, 1];
+const totalExercises=[2, 2, 3, 3, 3];
 const hasTheory = [true, true, false, false, false];
 const introText = [
     `You and your teammate will have to solve in total 5 different tasks together. 
-    Each task will have multiple similar exercises. 
-    Each time you complete an exercise without any mistake, you will gain an apple.`,
+    Both of you will have to submit the solution to the exercises, but the minimum score is chosen, so help each other out.
+    Pay attention to the dashboard in order to maintain a good balance in conversation.`,
 
     `In the first task you will get information about Korean symbols and their pronunciation. 
-    Make sure you try to remember them, because you and your teammate will have to put them back together after.`,
+    Make sure you try to remember them, because you and your teammate will have to put them back together.`,
 
     `The second task is very similar to the first one. The main difference here is that you will have to deal with syllables.`,
 
-    `In the third task you will have to combine the syllables to form a word.`,
+    `In the third task, you will have to combine syllables to form a word. A small TIP: the symbol “ㄹ” is often pronounced as “r”. Koreans have the same symbol for “r” and “l”.`,
 
-    `In this task you will get the pronunciation of the word and you will have to type it using a Korean keyboard.`,
+    `In this task you will get the pronunciation of the word and you will have to type it using a Korean keyboard. Make sure to listen! Task 5 is a listening exercise.`,
 
-    `In the last exercise you will have to listen to the audio file and figure out what word was spoken.`
+    `In the last exercise you will have to listen to the audio and figure out how the word is written in Korean.`
 ];
 
 const titles = [
@@ -209,7 +209,7 @@ const appleQuestions1 = [
         question: `Which symbol corresponds to the sound of “eo”?`, 
         answers: ["ㅏ", "ㅣ", "ㅓ"],
         correctAnswer: 2,
-        feedback: `The corresponding symbol for eo is ㅓ. ㅏ corresponds to ah and ㅣ to i.`
+        feedback: `The corresponding symbol for eo is ㅓ. ㅏ corresponds to a and ㅣ to i.`
     },
     {
         question: `Which symbol corresponds to the sound of “S”?`, 
@@ -220,16 +220,16 @@ const appleQuestions1 = [
 
     [{
         question: `To which sound does the red symbol correspond to?`, 
-        answers: ["m", "oe", "l"],
+        answers: ["m", "u", "l"],
         correctAnswer: 1,
-        feedback: 'The word in the picture consists out of 3 symbols. The middle one is highlighted and corresponds to the sound of oe. The word is pronounced as moel.',
+        feedback: 'The word in the picture consists out of 3 symbols. The middle one is highlighted and corresponds to the sound of u. The word is pronounced as mul.',
         image: "/images/moel.png"
     },
     {
         question: `To which consonant does the symbol “ㅇ” correspond to if it is placed at the start of a syllable? (f.e. 악)`, 
         answers: ["h", "m", "Nothing"],
         correctAnswer: 2,
-        feedback: 'If ㅇ is placed at the start of the symbol, it is not spoken, but it is needed for the vowel (ㅏ is never used on its own, the write ah you have to write 아).'
+        feedback: 'If ㅇ is placed at the start of the symbol, it is not spoken, but it is needed for the vowel (ㅏ is never used on its own, to write -a- you have to write 아).'
     }]
 ];
 const appleQuestions2 = [
@@ -240,17 +240,17 @@ const appleQuestions2 = [
         feedback: 'The corresponding symbol for G is ㄱ. ㄴ corresponds to N and ㄷ to D.'
     },
     {
-        question: `Which symbol corresponds to the sound of “oe”?`, 
+        question: `Which symbol corresponds to the sound of “u”?`, 
         answers: ["ㅗ", "ㅠ", "ㅜ"],
         correctAnswer: 2,
-        feedback: 'The corresponding symbol for oe is ㅜ. ㅗ corresponds to oh and ㅠ you will learn in the next task.'
+        feedback: 'The corresponding symbol for u is ㅜ. ㅗ corresponds to oh and ㅠ you will learn in the next task.'
     }],
 
     [{
-        question: `What is the symbol that corresponds to the sound of “yoh”`, 
+        question: `What is the symbol that corresponds to the sound of “yo”`, 
         answers: ["ㅍ", "ㅠ", "ㅛ"],
         correctAnswer: 2,
-        feedback: 'The corresponding symbol for "yoh" is ㅛ. ㅠ corresponds to yoe and ㅍ you have not learned yet.'
+        feedback: 'The corresponding symbol for "yo" is ㅛ. ㅠ corresponds to yu and ㅍ you have not learned yet.'
     },
     {
         question: `To which consonant does the symbol “ㅇ” correspond if it is placed at the end?`, 
@@ -273,37 +273,37 @@ const task1TheoryPerson1 = [
         koreanLabels: ["그", "기", "디", "드"]
     },
     {
-        englishLabels: ["Si", "Bah", "Seu", "Beu"],
+        englishLabels: ["Si", "Ba", "Seu", "Beu"],
         koreanLabels: ["시", "바", "스", "브"]
     }
 ];
 const task1TheoryPerson2 = [
     {
-        englishLabels: ["Meo", "Neo", "Mah", "Dah"],
+        englishLabels: ["Meo", "Neo", "Ma", "Da"],
         koreanLabels: ["머", "너", "마", "다"]
     },
     {
-        englishLabels: ["Goh", "Goe", "Doh", "Doe"],
+        englishLabels: ["Go", "Gu", "Do", "Du"],
         koreanLabels: ["고", "구", "도", "두"]
     }
 ];
 const task2TheoryPerson1 = [
     {
-        englishLabels: ["Rom", "Reul", "Mal", "Ram"], //How should you pronounce ㄹ in different scenarios? r vs l.
+        englishLabels: ["Lom", "Leul", "Mal", "Lam"], 
         koreanLabels: ["롬", "를", "말", "람"]
     },
     {
-        englishLabels: ["I", "Oh", "Eug", "Teug"],
+        englishLabels: ["I", "O", "Eug", "Teug"],
         koreanLabels: ["이", "오", "윽", "특"]
     }
 ];
 const task2TheoryPerson2 = [
     {
-        englishLabels: ["Dyah", "Gyoen", "Dam", "Byag"], //ㄱ can be both g and k, why and when?  ㅋ is normallly k
+        englishLabels: ["Dya", "Gyun", "Dam", "Byag"], 
         koreanLabels: ["댜", "균", "담", "뱍"]
     },
     {
-        englishLabels: ["Mang", "Neong", "Byang", "Mah"],
+        englishLabels: ["Mang", "Neong", "Byang", "Ma"],
         koreanLabels: ["망", "넝", "뱡", "마"]
     }
 ];
@@ -315,12 +315,12 @@ const theory = [[task1TheoryPerson1, task2TheoryPerson1], [task1TheoryPerson2, t
 //taskQuestions = [task1Questions, task2Questions,...]
 const task1Questions = [
     {
-        englishLabels: ["Geo", "Dah", "Meu", "Mi"],
+        englishLabels: ["Geo", "Da", "Meu", "Mi"],
         koreanLabels: ["거", "미", "더", "다", "므"],
         solution: "0341"
     },
     {
-        englishLabels: ["Sah", "Toe", "Beu", "Roh"],
+        englishLabels: ["Sa", "Tu", "Beu", "Lo"],
         koreanLabels: ["서", "사", "브", "로", "투"],
         solution: "1423"
     }
@@ -328,12 +328,12 @@ const task1Questions = [
 
 const task2Questions = [
     {
-        englishLabels: ["Ryam", "Gyol", "Geol", "Ryal", "Rom"],
+        englishLabels: ["Lyam", "Gyol", "Geol", "Lyal", "Lom"],
         koreanLabels: ["굘", "롬", "럄", "걸", "랼"],
         solution: "20341"
     },
     {
-        englishLabels: ["Ing", "Song", "Im", "Bing", "Ahm"],
+        englishLabels: ["Ing", "Song", "Im", "Bing", "Am"],
         koreanLabels: ["잉", "암", "임", "송", "빙"],
         solution: "03241"
     }
@@ -345,12 +345,12 @@ const task3Questions = [
         solution: "24"
     },
     {
-        word: "Dong-moel (Animal)",
+        word: "Dong-mul (Animal)",
         koreanLabels: ["두", "동", "둥", "물", "울"],
         solution: "13"
     },
     {
-        word: "Sah-ram (Human)",
+        word: "Sa-ram (Human)",
         koreanLabels: ["서", "감", "사", "상", "람"],
         solution: "24"
     }
@@ -362,7 +362,7 @@ const task4Questions = [
         solution: "음식"
     },
     {
-        word: "Moel (Water)",
+        word: "Mul (Water)",
         solution: "물"
     },
     {

@@ -45,8 +45,13 @@
     border-color: #6F86A9;
     background-color: #6F86A9;
     padding: 0.5%;
-    padding-left: 2%;
+    padding-left: 4%;
     padding-right: 2%;
+    background-image: url("/images/speaker.png");
+    background-size: 10%;
+    background-position-x: 2%;
+    background-position-y: 37%;
+    background-repeat: no-repeat;
 
   }
 

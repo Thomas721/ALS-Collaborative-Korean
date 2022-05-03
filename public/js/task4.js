@@ -42,7 +42,7 @@ function check(){
     else{
         $("#check").hide();
         $("#correction").show();
-        $("#correctionText").text(`Incorrect! \n The correct answer was: \n ${solution}`);
+        $("#correctionText").html(`Incorrect! <br> The correct answer was: <br> ${solution}`);
         $("#continue").show();
 
     }
