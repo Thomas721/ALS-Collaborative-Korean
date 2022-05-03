@@ -39,7 +39,7 @@ router.get("/start/:personNb", (req, res) => {
 
     //initialize session
     req.session.person = person;
-    req.session.task = 0o;
+    req.session.task = 0;
     req.session.exercise = 0;
     req.session.theoryDone = false;
     req.session.introDone = false;
